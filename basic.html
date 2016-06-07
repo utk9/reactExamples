@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>React Tutorial</title>
+<!-- Not present in the tutorial. Just for basic styling. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+var MovieWatcher = React.createClass({
+  getInitialState: function(){
+    return ({
+      movie: ""
+    });
+  },
+  getAnswer: function(event){
+    this.setState({movie: event.target.value});
+  },
+  render: function(){
+    return (
+      <div>
+      <form>
+        <label>What is your favourite movie?</label>
+
+        <input onChange={this.getAnswer} />
+      </form>
+      <p>It is: {this.state.movie}</p>
+      </div>
+      );
+  }
+});
+ReactDOM.render(
+  <MovieWatcher />,
+  document.getElementById('content')
+  );
+
+
+
+
+</script>
+
+</body>
+</html>
