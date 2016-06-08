@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>React Tutorial</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+</head>
+<body>
+<div id="content"></div>
+<script type="text/babel">
+
+var Menu = React.createClass({
+getInitialState: function() {
+  return {
+    focused: 0
+  }
+},
+clickHandler: function(index){
+  this.setState({focused: index});
+},
+render: function(){
+  var that=this;
+  return (
+    <div>
+      <ul>
+      {
+        this.props.items.map(function(m, index){
+          var style='';
+          if (that.state.focused == index){
+            style="focused";
+          }
+
+          return <li className={style} onClick={that.clickHandler.bind(that, index)}>{m}</li>
+
+        });
+      }
+      </ul>
+      <p>Selected: {this.props.items[this.state.focused]}</p>
+    </div>
+    );
+}
+
+});
+
+ReactDOM.render(
+  <Menu items={ ['Home', 'Services', 'About', 'Contact us'] } />,
+  document.getElementById('content')
+  );
+</script>
+
+</div>
+
+</body>
+</html>
