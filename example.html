@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+            
+
+<script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
+<script   src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"   integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="   crossorigin="anonymous"></script>
+
+<script src="node_modules/trumbowyg/dist/trumbowyg.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.25/browser.min.js"></script>
+
+    <link rel="stylesheet" href="node_modules/trumbowyg/dist/ui/trumbowyg.min.css">
+
+</head>
+<body>
+<div class="container" id="content"></div>
+<script type="text/babel">
+
+var Editor = React.createClass({
+  getDefaultProps: function() {
+    return {
+      placeholder: 'Enter your message here...',
+      body: ""
+    };
+  },
+  componentDidMount: function () {
+    $('#editor').trumbowyg({
+      fullscreenable: false
+    });
+
+    $('#editor').trumbowyg('html', this.props.body);
+  },
+  render: function () {
+    return <div id="editor" placeholder={this.props.placeholder}></div>;
+  }
+});
+var Mailbox = React.createClass({
+	render: function(){
+		return (
+			<Editor />
+		);
+	}
+});
+
+var options = {};
+
+var element = React.createElement(Mailbox, options);
+ReactDOM.render(element, document.getElementById('content'));
+</script>
+</body>
+</html>
