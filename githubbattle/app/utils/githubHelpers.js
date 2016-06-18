@@ -14,7 +14,7 @@ var helpers = {
       })
     })
     .catch(function (err) {console.warn('Error in getPlayersInfo: ', err)})
-  }
+  },
 };
 
 module.exports = helpers;

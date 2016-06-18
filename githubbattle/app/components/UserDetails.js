@@ -5,6 +5,8 @@ function UserDetails(props) {
 	return (
 		<div>
 			<ul className="list-group">
+				{props.info.score && <li className="list-group-item">{props.info.score}</li>}
+
 				<li className="list-group-item">
 					{props.info.login}
 				</li>
