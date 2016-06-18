@@ -1,4 +1,5 @@
 var React = require('react');
+var Link = require('react-router').Link;
 
 function Results (props) {
 	return (
@@ -12,6 +13,12 @@ function Results (props) {
 <h4 className="lead">Player 2</h4>
 			<h3 className="lead">{props.playersInfo[1].login}: {props.scores[1]}</h3>
 			</div>
+
+			<Link to='/playerOne'>
+				<button type="button" className="btn btn-success">
+					Start over
+				</button>
+			</Link>
 			
 			
 		</div>
