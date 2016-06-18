@@ -1,4 +1,5 @@
 var React = require('react');
+var UserDetails = require('./UserDetails')
 var Link = require('react-router').Link;
 
 function puke (obj) {
@@ -12,10 +13,11 @@ function ConfirmBattle(props) {
 		<div className="container">
 			<div className="row">
 				<div className="col-sm-6">
-					{puke(props.playersInfo[0])}
+					<UserDetails info={props.playersInfo[0]} />
 				</div>
 				<div className="col-sm-6">
-					{puke(props.playersInfo[1])}
+					<UserDetails info={props.playersInfo[1]} />
+					
 				</div>
 			</div>
 		</div>
