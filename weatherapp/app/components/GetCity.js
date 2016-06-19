@@ -15,10 +15,10 @@ var GetCity = React.createClass({
     },
     submitHandler: function(){
     	this.context.router.push({
-    		pathname: '/weather',
-    		query: {
-    			city: this.state.city
-    		}
+    		pathname: '/weather/' + this.state.city,
+    		// query: {
+    		// 	city: this.state.city
+    		// }
     	});
 
     },
