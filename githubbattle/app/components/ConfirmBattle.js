@@ -2,7 +2,9 @@ var React = require('react');
 
 function ConfirmBattle(props) {
 	return (
-		<div>Confirm Battle</div>
+		props.isLoading == true 
+		? <p>Loading...</p> 
+		: <p>Confirm Battle</p>
 	);
 }
 
