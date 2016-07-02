@@ -5,6 +5,7 @@
   "main": "webapp.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
     "start": "node webapp.js"
   },
   "author": "",

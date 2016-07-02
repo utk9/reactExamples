@@ -21159,6 +21159,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _bugRow = __webpack_require__(174);
+
+	var _bugRow2 = _interopRequireDefault(_bugRow);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21182,7 +21186,45 @@
 				return _react2.default.createElement(
 					'div',
 					null,
-					'Bug Table'
+					_react2.default.createElement(
+						'table',
+						{ className: 'table' },
+						_react2.default.createElement(
+							'thead',
+							null,
+							_react2.default.createElement(
+								'th',
+								null,
+								'Id'
+							),
+							_react2.default.createElement(
+								'th',
+								null,
+								'Status'
+							),
+							_react2.default.createElement(
+								'th',
+								null,
+								'Priority'
+							),
+							_react2.default.createElement(
+								'th',
+								null,
+								'Owner'
+							),
+							_react2.default.createElement(
+								'th',
+								null,
+								'Title'
+							)
+						),
+						_react2.default.createElement(
+							'tbody',
+							null,
+							_react2.default.createElement(_bugRow2.default, { id: 1, status: 'Not Fixed', priority: 2, owner: 'Jerry', title: 'fix my bug plz' }),
+							_react2.default.createElement(_bugRow2.default, { id: 2, status: 'Under review', priority: 1, owner: 'Beth', title: 'bug encountered' })
+						)
+					)
 				);
 			}
 		}]);
@@ -21191,6 +21233,87 @@
 	}(_react2.default.Component);
 
 	exports.default = BugTable;
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var BugRow = function (_React$Component) {
+		_inherits(BugRow, _React$Component);
+
+		function BugRow() {
+			_classCallCheck(this, BugRow);
+
+			return _possibleConstructorReturn(this, Object.getPrototypeOf(BugRow).apply(this, arguments));
+		}
+
+		_createClass(BugRow, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'tr',
+					null,
+					_react2.default.createElement(
+						'td',
+						null,
+						this.props.id
+					),
+					_react2.default.createElement(
+						'td',
+						null,
+						this.props.status
+					),
+					_react2.default.createElement(
+						'td',
+						null,
+						this.props.priority
+					),
+					_react2.default.createElement(
+						'td',
+						null,
+						this.props.owner
+					),
+					_react2.default.createElement(
+						'td',
+						null,
+						this.props.title
+					)
+				);
+			}
+		}]);
+
+		return BugRow;
+	}(_react2.default.Component);
+
+	BugRow.propTypes = {
+		id: _react2.default.PropTypes.number,
+		status: _react2.default.PropTypes.string,
+		priority: _react2.default.PropTypes.number,
+		owner: _react2.default.PropTypes.string,
+		title: _react2.default.PropTypes.string
+	};
+
+	exports.default = BugRow;
 
 /***/ }
 /******/ ]);
