@@ -5,6 +5,7 @@ import BugFilter from './bugFilter';
 import BugTable from './bugTable';
 
 class BugList extends React.Component {
+
 	constructor (props) {
 		super (props);
 		this.state = {
@@ -17,6 +18,20 @@ class BugList extends React.Component {
 				}
 			]
 		}
+		this.addBug = this.addBug.bind(this);
+	}
+
+	addBug (name, priority, title) {
+		var bugs = this.state.bugsData;
+		var id = bugs.length + 1;
+		bugs.push ({
+			"id": id,
+			"status": "Not fixed",
+			"priority": Number(priority),
+			"owner": name,
+			"title": title
+		});
+		this.setState({bugsData: bugs});
 	}
 
 	render () {
@@ -25,7 +40,7 @@ class BugList extends React.Component {
 				<h1>BugList Component</h1>
 				<BugFilter />
 				<BugTable bugs={this.state.bugsData}/>
-				<BugAdd />
+				<BugAdd addBug={this.addBug}/>
 			</div>
 
 		);

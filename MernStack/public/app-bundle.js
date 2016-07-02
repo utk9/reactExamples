@@ -21028,10 +21028,25 @@
 					id: 2, status: "Under review", owner: "Matha", priority: 3, title: "Fix bug pls"
 				}]
 			};
+			_this.addBug = _this.addBug.bind(_this);
 			return _this;
 		}
 
 		_createClass(BugList, [{
+			key: 'addBug',
+			value: function addBug(name, priority, title) {
+				var bugs = this.state.bugsData;
+				var id = bugs.length + 1;
+				bugs.push({
+					"id": id,
+					"status": "Not fixed",
+					"priority": Number(priority),
+					"owner": name,
+					"title": title
+				});
+				this.setState({ bugsData: bugs });
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -21044,7 +21059,7 @@
 					),
 					_react2.default.createElement(_bugFilter2.default, null),
 					_react2.default.createElement(_bugTable2.default, { bugs: this.state.bugsData }),
-					_react2.default.createElement(_bugAdd2.default, null)
+					_react2.default.createElement(_bugAdd2.default, { addBug: this.addBug })
 				);
 			}
 		}]);
@@ -21081,13 +21096,38 @@
 	var BugAdd = function (_React$Component) {
 		_inherits(BugAdd, _React$Component);
 
-		function BugAdd() {
+		function BugAdd(props) {
 			_classCallCheck(this, BugAdd);
 
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(BugAdd).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BugAdd).call(this, props));
+
+			_this.state = {
+				name: '',
+				title: '',
+				priority: ''
+			};
+			return _this;
 		}
 
 		_createClass(BugAdd, [{
+			key: 'handleInput',
+			value: function handleInput(field, evt) {
+				var newPartialState = {};
+				newPartialState[field] = evt.target.value;
+				this.setState(newPartialState);
+			}
+		}, {
+			key: 'handleSubmit',
+			value: function handleSubmit(evt) {
+				evt.preventDefault();
+				this.props.addBug(this.state.name, this.state.priority, this.state.title);
+				this.setState({
+					name: '',
+					title: '',
+					priority: ''
+				});
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -21095,7 +21135,7 @@
 					{ className: 'row col-xs-6' },
 					_react2.default.createElement(
 						'form',
-						null,
+						{ onSubmit: this.handleSubmit.bind(this) },
 						_react2.default.createElement(
 							'div',
 							{ className: 'form-group' },
@@ -21104,7 +21144,8 @@
 								{ htmlFor: 'nameInput' },
 								'Name'
 							),
-							_react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'nameInput', placeholder: 'Name' })
+							_react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'nameInput', placeholder: 'Name',
+								value: this.state.name, onChange: this.handleInput.bind(this, 'name') })
 						),
 						_react2.default.createElement(
 							'div',
@@ -21114,7 +21155,8 @@
 								{ htmlFor: 'priorityInput' },
 								'Priority'
 							),
-							_react2.default.createElement('input', { type: 'number', className: 'form-control', id: 'priorityInput', placeholder: '1-5' })
+							_react2.default.createElement('input', { type: 'number', className: 'form-control', id: 'priorityInput', placeholder: '1-5',
+								value: this.state.priority, onChange: this.handleInput.bind(this, 'priority') })
 						),
 						_react2.default.createElement(
 							'div',
@@ -21124,7 +21166,8 @@
 								{ htmlFor: 'titleInput' },
 								'Title'
 							),
-							_react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'titleInput', placeholder: 'Title' })
+							_react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'titleInput', placeholder: 'Title',
+								value: this.state.title, onChange: this.handleInput.bind(this, 'title') })
 						),
 						_react2.default.createElement(
 							'button',
@@ -21138,6 +21181,10 @@
 
 		return BugAdd;
 	}(_react2.default.Component);
+
+	BugAdd.propTypes = {
+		addBug: _react2.default.PropTypes.func
+	};
 
 	exports.default = BugAdd;
 
