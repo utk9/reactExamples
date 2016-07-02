@@ -14,11 +14,9 @@ var GetCity = React.createClass({
     	this.setState({city: event.target.value});
     },
     submitHandler: function(){
+    	console.log(this.context.router);
     	this.context.router.push({
     		pathname: '/weather/' + this.state.city,
-    		// query: {
-    		// 	city: this.state.city
-    		// }
     	});
 
     },
