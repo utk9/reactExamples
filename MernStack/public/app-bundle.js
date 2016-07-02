@@ -21022,6 +21022,7 @@
 			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BugList).call(this, props));
 
 			_this.state = {
+				isLoading: true,
 				bugsData: [{
 					id: 1, status: "Not fixed", owner: "Beth", priority: 1, title: "Fix bug pls"
 				}, {
@@ -21033,34 +21034,72 @@
 		}
 
 		_createClass(BugList, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var xmlhttp = new XMLHttpRequest();
+				var that = this;
+				xmlhttp.onreadystatechange = function () {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						that.setState({
+							bugsData: JSON.parse(xmlhttp.responseText),
+							isLoading: false
+						});
+					}
+				};
+				xmlhttp.open("GET", 'api/bugs', true);
+				xmlhttp.send();
+			}
+		}, {
 			key: 'addBug',
 			value: function addBug(name, priority, title) {
 				var bugs = this.state.bugsData;
 				var id = bugs.length + 1;
-				bugs.push({
+				var newBug = {
 					"id": id,
 					"status": "Not fixed",
 					"priority": Number(priority),
 					"owner": name,
 					"title": title
-				});
+				};
+				bugs.push(newBug);
+
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function () {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						that.setState({
+							bugsData: JSON.parse(xmlhttp.responseText)
+						});
+					}
+				};
+				xmlhttp.open('POST', 'api/bugs', true);
+				xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+				xmlhttp.send(JSON.stringify(newBug));
+
 				this.setState({ bugsData: bugs });
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					{ className: 'container' },
-					_react2.default.createElement(
-						'h1',
-						null,
-						'BugList Component'
-					),
-					_react2.default.createElement(_bugFilter2.default, null),
-					_react2.default.createElement(_bugTable2.default, { bugs: this.state.bugsData }),
-					_react2.default.createElement(_bugAdd2.default, { addBug: this.addBug })
-				);
+				if (this.state.isLoading) {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'container' },
+						'Loading...'
+					);
+				} else {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'container' },
+						_react2.default.createElement(
+							'h1',
+							null,
+							'BugList Component'
+						),
+						_react2.default.createElement(_bugFilter2.default, null),
+						_react2.default.createElement(_bugTable2.default, { bugs: this.state.bugsData }),
+						_react2.default.createElement(_bugAdd2.default, { addBug: this.addBug })
+					);
+				}
 			}
 		}]);
 
@@ -21290,27 +21329,27 @@
 								'tr',
 								null,
 								_react2.default.createElement(
-									'td',
+									'th',
 									null,
 									'Id'
 								),
 								_react2.default.createElement(
-									'td',
+									'th',
 									null,
 									'Status'
 								),
 								_react2.default.createElement(
-									'td',
+									'th',
 									null,
 									'Priority'
 								),
 								_react2.default.createElement(
-									'td',
+									'th',
 									null,
 									'Owner'
 								),
 								_react2.default.createElement(
-									'td',
+									'th',
 									null,
 									'Title'
 								)

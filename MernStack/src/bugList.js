@@ -9,6 +9,7 @@ class BugList extends React.Component {
 	constructor (props) {
 		super (props);
 		this.state = {
+			isLoading: true,
 			bugsData: [
 				{
 					id: 1, status: "Not fixed", owner: "Beth", priority: 1, title: "Fix bug pls"
@@ -21,29 +22,67 @@ class BugList extends React.Component {
 		this.addBug = this.addBug.bind(this);
 	}
 
+	componentDidMount () {
+		var xmlhttp = new XMLHttpRequest();
+		var that = this;
+		xmlhttp.onreadystatechange = function () {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				that.setState({
+					bugsData: JSON.parse(xmlhttp.responseText),
+					isLoading: false
+				});
+			}
+		}
+		xmlhttp.open("GET", 'api/bugs', true);
+		xmlhttp.send();
+	}
+
 	addBug (name, priority, title) {
 		var bugs = this.state.bugsData;
 		var id = bugs.length + 1;
-		bugs.push ({
+		var newBug = {
 			"id": id,
 			"status": "Not fixed",
 			"priority": Number(priority),
 			"owner": name,
 			"title": title
-		});
+		}
+		bugs.push (newBug);
+
+		var xmlhttp = new XMLHttpRequest ();
+		xmlhttp.onreadystatechange = function () {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				that.setState({
+					bugsData: JSON.parse(xmlhttp.responseText)
+				});
+			}
+		}
+		xmlhttp.open('POST', 'api/bugs', true);
+		xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+		xmlhttp.send(JSON.stringify(newBug));
+
 		this.setState({bugsData: bugs});
 	}
 
 	render () {
-		return (
-			<div className='container'> 
-				<h1>BugList Component</h1>
-				<BugFilter />
-				<BugTable bugs={this.state.bugsData}/>
-				<BugAdd addBug={this.addBug}/>
-			</div>
+		if (this.state.isLoading) {
+			return (
+				<div className='container'>
+					Loading...
+				</div>
 
-		);
+			);
+		} else {
+			return (
+				<div className='container'> 
+					<h1>BugList Component</h1>
+					<BugFilter />
+					<BugTable bugs={this.state.bugsData}/>
+					<BugAdd addBug={this.addBug}/>
+				</div>
+			);
+		}
+		
 	}
 
 }

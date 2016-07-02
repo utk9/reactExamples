@@ -9,11 +9,11 @@ class BugTable extends React.Component {
 				<table className='table'>
 					<thead>
 						<tr>
-							<td>Id</td>
-							<td>Status</td>
-							<td>Priority</td>
-							<td>Owner</td>
-							<td>Title</td>
+							<th>Id</th>
+							<th>Status</th>
+							<th>Priority</th>
+							<th>Owner</th>
+							<th>Title</th>
 						</tr>
 						
 					</thead>
