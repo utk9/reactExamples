@@ -21016,10 +21016,19 @@
 	var BugList = function (_React$Component) {
 		_inherits(BugList, _React$Component);
 
-		function BugList() {
+		function BugList(props) {
 			_classCallCheck(this, BugList);
 
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(BugList).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BugList).call(this, props));
+
+			_this.state = {
+				bugsData: [{
+					id: 1, status: "Not fixed", owner: "Beth", priority: 1, title: "Fix bug pls"
+				}, {
+					id: 2, status: "Under review", owner: "Matha", priority: 3, title: "Fix bug pls"
+				}]
+			};
+			return _this;
 		}
 
 		_createClass(BugList, [{
@@ -21027,14 +21036,14 @@
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
-					null,
+					{ className: 'container' },
 					_react2.default.createElement(
 						'h1',
 						null,
 						'BugList Component'
 					),
 					_react2.default.createElement(_bugFilter2.default, null),
-					_react2.default.createElement(_bugTable2.default, null),
+					_react2.default.createElement(_bugTable2.default, { bugs: this.state.bugsData }),
 					_react2.default.createElement(_bugAdd2.default, null)
 				);
 			}
@@ -21083,8 +21092,46 @@
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
-					null,
-					'Bug Add'
+					{ className: 'row col-xs-6' },
+					_react2.default.createElement(
+						'form',
+						null,
+						_react2.default.createElement(
+							'div',
+							{ className: 'form-group' },
+							_react2.default.createElement(
+								'label',
+								{ htmlFor: 'nameInput' },
+								'Name'
+							),
+							_react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'nameInput', placeholder: 'Name' })
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'form-group' },
+							_react2.default.createElement(
+								'label',
+								{ htmlFor: 'priorityInput' },
+								'Priority'
+							),
+							_react2.default.createElement('input', { type: 'number', className: 'form-control', id: 'priorityInput', placeholder: '1-5' })
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'form-group' },
+							_react2.default.createElement(
+								'label',
+								{ htmlFor: 'titleInput' },
+								'Title'
+							),
+							_react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'titleInput', placeholder: 'Title' })
+						),
+						_react2.default.createElement(
+							'button',
+							{ type: 'submit', className: 'btn btn-default' },
+							'Submit'
+						)
+					)
 				);
 			}
 		}]);
@@ -21193,36 +21240,42 @@
 							'thead',
 							null,
 							_react2.default.createElement(
-								'th',
+								'tr',
 								null,
-								'Id'
-							),
-							_react2.default.createElement(
-								'th',
-								null,
-								'Status'
-							),
-							_react2.default.createElement(
-								'th',
-								null,
-								'Priority'
-							),
-							_react2.default.createElement(
-								'th',
-								null,
-								'Owner'
-							),
-							_react2.default.createElement(
-								'th',
-								null,
-								'Title'
+								_react2.default.createElement(
+									'td',
+									null,
+									'Id'
+								),
+								_react2.default.createElement(
+									'td',
+									null,
+									'Status'
+								),
+								_react2.default.createElement(
+									'td',
+									null,
+									'Priority'
+								),
+								_react2.default.createElement(
+									'td',
+									null,
+									'Owner'
+								),
+								_react2.default.createElement(
+									'td',
+									null,
+									'Title'
+								)
 							)
 						),
 						_react2.default.createElement(
 							'tbody',
 							null,
-							_react2.default.createElement(_bugRow2.default, { id: 1, status: 'Not Fixed', priority: 2, owner: 'Jerry', title: 'fix my bug plz' }),
-							_react2.default.createElement(_bugRow2.default, { id: 2, status: 'Under review', priority: 1, owner: 'Beth', title: 'bug encountered' })
+							this.props.bugs.map(function (bug) {
+								return _react2.default.createElement(_bugRow2.default, { key: bug.id, id: bug.id, status: bug.status,
+									priority: bug.priority, owner: bug.owner, title: bug.title });
+							})
 						)
 					)
 				);
@@ -21231,6 +21284,10 @@
 
 		return BugTable;
 	}(_react2.default.Component);
+
+	BugTable.propTypes = {
+		bugs: _react2.default.PropTypes.array
+	};
 
 	exports.default = BugTable;
 

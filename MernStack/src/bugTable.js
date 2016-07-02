@@ -8,23 +8,30 @@ class BugTable extends React.Component {
 			<div>
 				<table className='table'>
 					<thead>
-						
-							<th>Id</th>
-							<th>Status</th>
-							<th>Priority</th>
-							<th>Owner</th>
-							<th>Title</th>
+						<tr>
+							<td>Id</td>
+							<td>Status</td>
+							<td>Priority</td>
+							<td>Owner</td>
+							<td>Title</td>
+						</tr>
 						
 					</thead>
 					<tbody>
-						<BugRow id={1} status="Not Fixed" priority={2} owner="Jerry" title="fix my bug plz" /> 
-						<BugRow id={2} status="Under review" priority={1} owner="Beth" title="bug encountered" /> 
+						{this.props.bugs.map(function(bug){
+							return <BugRow key={bug.id} id={bug.id} status={bug.status} 
+									priority={bug.priority} owner={bug.owner} title={bug.title} />;
+						})}
 					</tbody>
 				</table>
 				
 			</div>
 		);
 	}
+}
+
+BugTable.propTypes = {
+	bugs: React.PropTypes.array
 }
 
 export default BugTable;
