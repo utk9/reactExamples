@@ -21030,12 +21030,23 @@
 				}]
 			};
 			_this.addBug = _this.addBug.bind(_this);
+			_this.fetchData = _this.fetchData.bind(_this);
+			_this.filterBugs = _this.filterBugs.bind(_this);
 			return _this;
 		}
 
 		_createClass(BugList, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
+				this.fetchData();
+			}
+		}, {
+			key: 'fetchData',
+			value: function fetchData(filter) {
+				var url = 'api/bugs';
+				if (filter) {
+					url += '?status=' + filter.status + '&priority=' + filter.priority;
+				}
 				var xmlhttp = new XMLHttpRequest();
 				var that = this;
 				xmlhttp.onreadystatechange = function () {
@@ -21046,8 +21057,14 @@
 						});
 					}
 				};
-				xmlhttp.open("GET", 'api/bugs', true);
+				xmlhttp.open("GET", url, true);
 				xmlhttp.send();
+			}
+		}, {
+			key: 'filterBugs',
+			value: function filterBugs(filter) {
+				console.log(filter);
+				this.fetchData(filter);
 			}
 		}, {
 			key: 'addBug',
@@ -21095,7 +21112,7 @@
 							null,
 							'BugList Component'
 						),
-						_react2.default.createElement(_bugFilter2.default, null),
+						_react2.default.createElement(_bugFilter2.default, { filterBugs: this.filterBugs }),
 						_react2.default.createElement(_bugTable2.default, { bugs: this.state.bugsData }),
 						_react2.default.createElement(_bugAdd2.default, { addBug: this.addBug })
 					);
@@ -21254,19 +21271,108 @@
 	var BugFilter = function (_React$Component) {
 		_inherits(BugFilter, _React$Component);
 
-		function BugFilter() {
+		function BugFilter(props) {
 			_classCallCheck(this, BugFilter);
 
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(BugFilter).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BugFilter).call(this, props));
+
+			_this.state = {
+				status: '',
+				priority: ''
+			};
+			_this.changeStatus = _this.changeStatus.bind(_this);
+			_this.changePriority = _this.changePriority.bind(_this);
+			_this.handleSubmitFilter = _this.handleSubmitFilter.bind(_this);
+			return _this;
 		}
 
 		_createClass(BugFilter, [{
+			key: 'handleSubmitFilter',
+			value: function handleSubmitFilter() {
+				this.props.filterBugs(this.state);
+			}
+		}, {
+			key: 'changeStatus',
+			value: function changeStatus(evt) {
+				this.setState({ status: evt.target.value });
+			}
+		}, {
+			key: 'changePriority',
+			value: function changePriority(evt) {
+				this.setState({ priority: evt.target.value });
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
 					null,
-					'BugFilter'
+					_react2.default.createElement(
+						'h5',
+						null,
+						'Filter:'
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'form-group' },
+						_react2.default.createElement(
+							'label',
+							{ htmlFor: 'status-options' },
+							'Status:'
+						),
+						_react2.default.createElement(
+							'select',
+							{ className: 'form-control', id: 'status-options', onChange: this.changeStatus },
+							_react2.default.createElement(
+								'option',
+								{ value: '' },
+								'(Any)'
+							),
+							_react2.default.createElement(
+								'option',
+								{ value: 'Open' },
+								'Open'
+							),
+							_react2.default.createElement(
+								'option',
+								{ value: 'Fixed' },
+								'Fixed'
+							)
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'form-group' },
+						_react2.default.createElement(
+							'label',
+							{ htmlFor: 'priority-options' },
+							'Priority:'
+						),
+						_react2.default.createElement(
+							'select',
+							{ className: 'form-control', id: 'priority-options', onChange: this.changePriority },
+							_react2.default.createElement(
+								'option',
+								{ value: '' },
+								'(Any)'
+							),
+							_react2.default.createElement(
+								'option',
+								{ value: 1 },
+								'1'
+							),
+							_react2.default.createElement(
+								'option',
+								{ value: 2 },
+								'2'
+							)
+						)
+					),
+					_react2.default.createElement(
+						'button',
+						{ type: 'button', className: 'btn btn-default', onClick: this.handleSubmitFilter },
+						'Filter'
+					)
 				);
 			}
 		}]);
@@ -21359,7 +21465,7 @@
 							'tbody',
 							null,
 							this.props.bugs.map(function (bug) {
-								return _react2.default.createElement(_bugRow2.default, { key: bug.id, id: bug._id, status: bug.status,
+								return _react2.default.createElement(_bugRow2.default, { key: bug._id, id: bug._id, status: bug.status,
 									priority: bug.priority, owner: bug.owner, title: bug.title });
 							})
 						)

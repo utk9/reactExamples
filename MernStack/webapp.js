@@ -5,6 +5,7 @@ var mongoose = require ('mongoose');
 var app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 app.use(express.static('public'));
@@ -28,11 +29,19 @@ var bugSchema = mongoose.Schema({
 var Bug = mongoose.model('Bug', bugSchema);
 
 app.get('/api/bugs', function (req, res) {
-	Bug.find(function (err, bugs) {
+	var query = req.query;
+	var filter = {};
+	if (query.status) {
+		filter.status = query.status;
+	}
+	if (query.priority) {
+		filter.priority = query.priority;
+	}
+	console.log(filter);
+	Bug.find(filter, function (err, bugs) {
 		if (err) {
 			res.status(500).send({error: 'Could not fetch from database'});
 		} else {
-			console.log(bugs)
 			res.json(bugs);
 		}
 	});

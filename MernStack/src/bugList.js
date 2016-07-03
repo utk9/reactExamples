@@ -20,9 +20,19 @@ class BugList extends React.Component {
 			]
 		}
 		this.addBug = this.addBug.bind(this);
+		this.fetchData = this.fetchData.bind(this);
+		this.filterBugs = this.filterBugs.bind(this);
 	}
 
 	componentDidMount () {
+		this.fetchData();
+	}
+
+	fetchData (filter) {
+		var url = 'api/bugs';
+		if (filter) {
+			url+= '?status=' + filter.status + '&priority=' + filter.priority;
+		}
 		var xmlhttp = new XMLHttpRequest();
 		var that = this;
 		xmlhttp.onreadystatechange = function () {
@@ -33,8 +43,13 @@ class BugList extends React.Component {
 				});
 			}
 		}
-		xmlhttp.open("GET", 'api/bugs', true);
+		xmlhttp.open("GET", url, true);
 		xmlhttp.send();
+	}
+
+	filterBugs (filter) {
+		console.log(filter);
+		this.fetchData(filter);
 	}
 
 	addBug (name, priority, title) {
@@ -76,7 +91,7 @@ class BugList extends React.Component {
 			return (
 				<div className='container'> 
 					<h1>BugList Component</h1>
-					<BugFilter />
+					<BugFilter filterBugs={this.filterBugs}/>
 					<BugTable bugs={this.state.bugsData}/>
 					<BugAdd addBug={this.addBug}/>
 				</div>

@@ -19,7 +19,7 @@ class BugTable extends React.Component {
 					</thead>
 					<tbody>
 						{this.props.bugs.map(function(bug){
-							return <BugRow key={bug.id} id={bug._id} status={bug.status} 
+							return <BugRow key={bug._id} id={bug._id} status={bug.status} 
 									priority={bug.priority} owner={bug.owner} title={bug.title} />;
 						})}
 					</tbody>
