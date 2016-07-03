@@ -21359,7 +21359,7 @@
 							'tbody',
 							null,
 							this.props.bugs.map(function (bug) {
-								return _react2.default.createElement(_bugRow2.default, { key: bug.id, id: bug.id, status: bug.status,
+								return _react2.default.createElement(_bugRow2.default, { key: bug.id, id: bug._id, status: bug.status,
 									priority: bug.priority, owner: bug.owner, title: bug.title });
 							})
 						)
